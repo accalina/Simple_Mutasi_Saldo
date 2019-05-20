@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <!-- Latest compiled Datatables -->
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Create new nasabah</h2>
+                <hr>
+                <form action="addnasabah" method="post">
+                    <div class="form-group">
+                        <label>Nama Nasabah</label>
+                        <input class="form-control" type="text" name="nama" id="nama">
+                    </div>
+                    <div class="form-group">
+                        <label>Saldo Nasabah</label>
+                        <input class="form-control" type="text" name="saldo" id="saldo" value="0">
+                    </div>
+                    <input type="submit" values="Save">
+                </form>
+            </div>
+            <div class="col-sm-8">
+                <center><h2>List nasabah</h2></center>
+                <hr>
+                <table class="table table-bordered table-stripped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Saldo</th>
+                            <th>Point</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in dbdata['nasabah']: %}
+                        <tr>
+                            <td>{{ item['no'] }}</td>
+                            <td>{{ item['nama'] }}</td>
+                            <td>{{ item['saldo'] }}</td>
+                            <td>{{ item['point'] }}</td>
+                            <td><a class="btn btn-danger" href="deletenasabah?no={{ item['no'] }}">Delete </a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr> 
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>Pengisian Saldo</h3>
+                <form action="addsaldo" method="post">
+                    <div class="form-group">
+                        <label>ID Nasabah</label>
+                        <input class="form-control" type="text" name="id">
+                        <label>Saldo</label>
+                        <input class="form-control" type="text" name="saldo">
+                    </div>
+                    <input type="submit" value="Tambah Saldo" class="btn btn-success">
+                </form>
+            </div>
+            <div class="col-sm-4">
+                <h3>Pembelian Pulsa</h3>
+                <form action="belipulsa" method="post">
+                    <div class="form-group">
+                        <label>ID Nasabah</label>
+                        <input class="form-control" type="text" name="id">
+                        <label>Pulsa</label>
+                        <input class="form-control" type="text" name="saldo">
+                    </div>
+                    <input type="submit" value="Beli Pulsa" class="btn btn-warning">
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <center>
+                <h2>List nasabah</h2>
+            </center>
+            
+            <table id="mutasitable" class="table table-bordered table-stripped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama</th>
+                        <th>Debit</th>
+                        <th>Kredit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in dbdata['mutasi']: %}
+                    <tr>
+                        <td>{{ item['no'] }}</td>
+                        <td>{{ item['activity'] }}</td>
+                        <td>{{ item['debit'] }}</td>
+                        <td>{{ item['credit'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <hr>
+        <center> (C)Copyright Accalina Soft </center>
+        <hr>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+                $('#mutasitable').DataTable();
+            });
+    </script>
+</body>
+</html>
